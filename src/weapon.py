@@ -16,44 +16,44 @@ class Weapon:
     def update(self, dt, player):
         if player.dir == "down":
             if player.currentFrame == 0 or player.currentFrame == 2:
-                self.x = 0 + WINDOW_WIDTH / 2 - 8
-                self.y = 0 + WINDOW_HEIGHT / 2 - 9
+                self.x = player.drawX - 8
+                self.y = player.drawY - 9
             elif player.currentFrame == 1:
-                self.x = 0 + WINDOW_WIDTH / 2 - 9
-                self.y = 0 + WINDOW_HEIGHT / 2 - 9
+                self.x = player.drawX - 9
+                self.y = player.drawY - 9
             elif player.currentFrame == 3:
-                self.x = 0 + WINDOW_WIDTH / 2 - 6
-                self.y = 0 + WINDOW_HEIGHT / 2 - 9
+                self.x = player.drawX - 6
+                self.y = player.drawY - 9
         elif player.dir == "left":
             if player.currentFrame == 0:
-                self.x = 0 + WINDOW_WIDTH / 2- 6
-                self.y = 0 + WINDOW_HEIGHT / 2 - 9
+                self.x = player.drawX - 6
+                self.y = player.drawY - 9
             elif player.currentFrame == 1 or player.currentFrame == 3:
-                self.x = 0 + WINDOW_WIDTH / 2 + 2
-                self.y = 0 + WINDOW_HEIGHT / 2- 9
+                self.x = player.drawX + 2
+                self.y = player.drawY - 9
             elif player.currentFrame == 2:
-                self.x = 0 + WINDOW_WIDTH / 2 + 1
-                self.y = 0 + WINDOW_HEIGHT / 2 - 9
+                self.x = player.drawX + 1
+                self.y = player.drawY - 9
         elif player.dir == "right":
             if player.currentFrame == 0 or player.currentFrame == 2:
-                self.x = 0 + WINDOW_WIDTH / 2 + 2
-                self.y = 0 + WINDOW_HEIGHT / 2 - 10
+                self.x = player.drawX + 2
+                self.y = player.drawY - 10
             elif player.currentFrame == 1:
-                self.x = 0 + WINDOW_WIDTH / 2 - 1
-                self.y = 0 + WINDOW_HEIGHT / 2 - 7
+                self.x = player.drawX - 1
+                self.y = player.drawY - 7
             elif player.currentFrame == 3:
-                self.x = 0 + WINDOW_WIDTH / 2 - 6
-                self.y = 0 + WINDOW_HEIGHT / 2 - 10
+                self.x = player.drawX - 6
+                self.y = player.drawY - 10
         elif player.dir == "up":
             if player.currentFrame == 1 or player.currentFrame == 3:
-                self.x = 0 + WINDOW_WIDTH / 2 + 11
-                self.y = 0 + WINDOW_HEIGHT / 2- 10
+                self.x = player.drawX + 11
+                self.y = player.drawY- 10
             elif player.currentFrame == 0:
-                self.x = 0 + WINDOW_WIDTH / 2 + 12
-                self.y = 0 + WINDOW_HEIGHT / 2 - 9
+                self.x = player.drawX + 12
+                self.y = player.drawY - 9
             elif player.currentFrame == 2:
-                self.x = 0 + WINDOW_WIDTH / 2 + 10
-                self.y = 0 + WINDOW_HEIGHT / 2 - 10
+                self.x = player.drawX + 10
+                self.y = player.drawY - 10
 
     def render(self, surface):
         self.weaponSprite = pygame.transform.rotate(self.image, self.angle)

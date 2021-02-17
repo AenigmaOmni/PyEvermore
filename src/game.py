@@ -47,10 +47,12 @@ class Game:
 
     def render(self):
         self.screen.fill((0,0,0))
+        self.backBuffer.fill((0,0,0))
         self.level.render(self.backBuffer)
         
         img = self.font.render("FPS: " + str(round(self.fpsClock.get_fps())), True, (255, 255, 255))
         scaled = pygame.transform.scale(self.backBuffer, self.size)
+
         self.screen.blit(scaled, (0,0))
         self.screen.blit(img, (20, 20))
         pygame.display.flip()
@@ -66,6 +68,6 @@ class Game:
 
     def post_init(self):
         pygame.display.set_caption(TITLE)
-        self.fpsLimit = 300
+        self.fpsLimit = 120
         self.fpsClock = pygame.time.Clock()
         self.font = pygame.font.SysFont(None, 40)
