@@ -15,6 +15,7 @@ class Player:
         self.maxFrames = 4
         self.currentFrame = 0
         self.time = 0
+        self.rect = pygame.Rect(self.x, self.y, 32, 32)
         self.animTime = 0.25
         self.weapon = Weapon()
         self.weapon.loadImage("res/sprites/sword_1.png")
@@ -52,15 +53,16 @@ class Player:
     def update(self, delta, inputMap):
         self.animate(delta)
         #self.currentFrame = 0
-        self.weapon.update(delta, self)
-        self.doMove(delta)
 
     def preUpdate(self, delta, inputMap):
         self.getInput(delta, inputMap)
 
     def postUpdate(self, delta, inputMap):
+        self.doMove(delta)
         self.dx = 0
         self.dy = 0
+        self.weapon.update(delta, self)
+
         if self.lastDir != self.dir:
             self.lastDir = self.dir
             self.switchAnim()
@@ -79,11 +81,16 @@ class Player:
             self.dx = 1
             self.dir = "right"
 
+    def getMoveRect(self, delta):
+        return pygame.Rect(self.x + self.dx * self.speed * delta, self.y + self.dy * self.speed * delta, 32, 32)
+
     def doMove(self, delta):
         nx = self.x + self.dx * self.speed * delta
         ny = self.y + self.dy * self.speed * delta
         self.x = nx
         self.y = ny
+        self.rect.x = self.x
+        self.rect.y = self.y
 
     def animate(self, delta):
         self.time += delta

@@ -1,12 +1,34 @@
+import pygame
+from pygame.locals import *
 from src.levelRender import LevelRender
 from src.player import Player
+from pytmx.util_pygame import load_pygame
 
 class Level:
     def __init__(self):
+        self.tiled_map = load_pygame('res/maps/test_map_1.tmx')
         self.levelRenderer = LevelRender()
+        self.staticColliders = []
         self.entities = []
+        self.on_init()
+
+    def on_init(self):
         self.entities.append(Player())
-    
+        self.loadStaticColliders()
+
+    def loadStaticColliders(self):
+        objects = self.tiled_map.get_layer_by_name("Blocked")
+        for obj in objects:
+            rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+            self.staticColliders.append(rect)
+
+    def checkEntityStaticCollision(self, delta):
+        for static in self.staticColliders:
+            for en in self.entities:
+                if static.colliderect(en.getMoveRect(delta)):
+                    en.dx = 0
+                    en.dy = 0
+
     def preUpdate(self, delta, inputMap):
         for entity in self.entities:
             entity.preUpdate(delta, inputMap)
@@ -14,10 +36,12 @@ class Level:
     def postUpdate(self, delta, inputMap):
         for entity in self.entities:
             entity.postUpdate(delta, inputMap)
+        
 
     def update(self, delta, inputMap):
         for entity in self.entities:
             entity.update(delta, inputMap)
+        self.checkEntityStaticCollision(delta)
 
     def process(self, delta, inputMap):
         self.preUpdate(delta, inputMap)
@@ -25,4 +49,4 @@ class Level:
         self.postUpdate(delta, inputMap)
 
     def render(self, surface):
-        self.levelRenderer.render(surface, self.entities)
+        self.levelRenderer.render(self.tiled_map, surface, self.entities)
