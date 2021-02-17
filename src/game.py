@@ -47,25 +47,17 @@ class Game:
         self.level.process(delta, self.inputMap)
 
     def render(self):
-        self.backBuffer.fill((0, 0, 0))
         self.cameraBuffer.fill((0,0,0))
         #Render the world to the backBuffer
         self.level.render(self.backBuffer)
-        #Render the world at camera coords
-        self.cameraBuffer.blit(self.backBuffer, (0, 0),
-            pygame.Rect(0 - self.level.camera.x, 0 - self.level.camera.y, self.level.camera.width, self.level.camera.height))
-        
-        #Render just the area the camera occupies
-        xp = 0 + (self.width / 2) - self.design_width / 2
-        xy =  0 + (self.height / 2) - self.design_height / 2
-        r = pygame.Rect(xp, xy, self.design_width, self.design_height)
-        self.captureBuffer.blit(self.cameraBuffer, (0, 0), r)
 
-        #Scale the render to the design width and height to zoom it
-        self.scaleBuffer = pygame.transform.scale(self.captureBuffer, 
-            (self.design_width * self.cameraScale, self.design_height * self.cameraScale))
-        
+        #Render the world at camera coords
+        self.cameraBuffer.blit(self.backBuffer, (0, 0), pygame.Rect(0 - self.level.camera.x + self.level.camera.width / 2,
+            0 - self.level.camera.y + self.level.camera.height / 2, self.level.camera.width, self.level.camera.height))
+
+        self.scaleBuffer = pygame.transform.scale(self.cameraBuffer, (self.width * 3, self.height * 3))
         #blit to screen
+        self.screen.fill((0,0,0))
         self.screen.blit(self.scaleBuffer, (0,0))
         
         pygame.display.update()
@@ -83,9 +75,9 @@ class Game:
 
     def post_init(self, title):
         pygame.display.set_caption(title)
-        self.backBuffer = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
-        self.cameraBuffer = pygame.Surface((self.width, self.height))
-        self.captureBuffer = pygame.Surface((self.design_width, self.design_height))
-        self.scaleBuffer = pygame.Surface(self.dSize)
+        self.backBuffer = pygame.Surface((self.level.tiled_map.width * TILE_SIZE, self.level.tiled_map.height * TILE_SIZE), HWACCEL | HWSURFACE)
+        self.cameraBuffer = pygame.Surface((self.width, self.height), HWACCEL | HWSURFACE)
+        self.captureBuffer = pygame.Surface((self.design_width, self.design_height), HWACCEL | HWSURFACE)
+        self.scaleBuffer = pygame.Surface(self.dSize, HWACCEL | HWSURFACE)
         self.fpsLimit = 60
         self.fpsClock = pygame.time.Clock()

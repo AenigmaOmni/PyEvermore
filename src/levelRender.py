@@ -26,13 +26,13 @@ class LevelRender:
         y = self.player.ty - 7
         maxX = self.player.tx + 7
         maxY = self.player.ty + 7
+
         #render ground
         for i in range(y, maxY):  
             for j in range(x, maxX):
                 gid = ground.data[i][j]
                 if(map.images[gid] != None):
                     surface.blit(map.images[gid], (j * TILE_SIZE, i * TILE_SIZE))
-        
 
     def renderEntities(self, surface, entities):
         for entity in entities:
