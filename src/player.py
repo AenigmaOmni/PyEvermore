@@ -24,6 +24,10 @@ class Player:
             self.image = pygame.image.load("res/sprites/hero_1/walk_down.png")
         elif self.dir == "up":
             self.image = pygame.image.load("res/sprites/hero_1/walk_up.png")
+        elif self.dir == "left":
+            self.image = pygame.image.load("res/sprites/hero_1/walk_left.png")
+        elif self.dir == "right":
+            self.image = pygame.image.load("res/sprites/hero_1/walk_right.png")
 
     def renderPlayer(self, surface):
         surface.blit(self.image, (self.x, self.y), pygame.Rect(32 * self.currentFrame, 0, 32, 32))
@@ -38,10 +42,16 @@ class Player:
         elif self.dir == "down":
             self.renderPlayer(surface)
             self.renderWeapon(surface)
+        elif self.dir == "left":
+            self.renderWeapon(surface)
+            self.renderPlayer(surface)
+        elif self.dir == "right":
+            self.renderPlayer(surface)
+            self.renderWeapon(surface)
 
     def update(self, delta, inputMap):
         self.animate(delta)
-        #self.currentFrame = 3
+        #self.currentFrame = 0
         self.weapon.update(delta, self)
         self.doMove(delta)
 
@@ -64,8 +74,10 @@ class Player:
             self.dir = "down"
         if inputMap.a == True:
             self.dx = -1
+            self.dir = "left"
         if inputMap.d == True:
             self.dx = 1
+            self.dir = "right"
 
     def doMove(self, delta):
         nx = self.x + self.dx * self.speed * delta
