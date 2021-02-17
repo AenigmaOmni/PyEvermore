@@ -56,4 +56,4 @@ class Level:
         self.postUpdate(delta, inputMap)
 
     def render(self, surface):
-        self.levelRenderer.render(self.tiled_map, surface, self.entities)
+        self.levelRenderer.render(self.camera, self.tiled_map, surface, self.entities)

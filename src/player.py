@@ -36,12 +36,12 @@ class Player:
             self.image = pygame.image.load("res/sprites/hero_1/walk_right.png")
 
     def renderPlayer(self, surface):
-        surface.blit(self.image, (self.x, self.y), pygame.Rect(32 * self.currentFrame, 0, self.width, self.height))
+        surface.blit(self.image, (0 + WINDOW_WIDTH / 2, 0 + WINDOW_HEIGHT / 2), pygame.Rect(32 * self.currentFrame, 0, self.width, self.height))
 
     def renderWeapon(self, surface):
         self.weapon.render(surface)
 
-    def render(self, surface):
+    def render(self, surface, camera):
         if self.dir == "up":
             self.renderWeapon(surface)
             self.renderPlayer(surface)

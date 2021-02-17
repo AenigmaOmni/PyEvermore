@@ -20,7 +20,7 @@ class Game:
             self.update()
             self.render()
             self.fpsClock.tick(self.fpsLimit)
-            print(self.fpsClock.get_fps())
+
         self.cleanUp()
 
     def processEvents(self):
@@ -47,20 +47,12 @@ class Game:
         self.level.process(delta, self.inputMap)
 
     def render(self):
-        self.cameraBuffer.fill((0,0,0))
-        #Render the world to the backBuffer
-        self.level.render(self.backBuffer)
-
-        #Render the world at camera coords
-        self.cameraBuffer.blit(self.backBuffer, (0, 0), pygame.Rect(0 - self.level.camera.x + self.level.camera.width / 2,
-            0 - self.level.camera.y + self.level.camera.height / 2, self.level.camera.width, self.level.camera.height))
-
-        self.scaleBuffer = pygame.transform.scale(self.cameraBuffer, (self.width * 3, self.height * 3))
-        #blit to screen
         self.screen.fill((0,0,0))
-        self.screen.blit(self.scaleBuffer, (0,0))
-        
-        pygame.display.update()
+        self.level.render(self.screen)
+
+        img = self.font.render("FPS: " + str(round(self.fpsClock.get_fps())), True, (255, 255, 255))
+        self.screen.blit(img, (20, 20))
+        pygame.display.flip()
 
     def cleanUp(self):
         pygame.quit()
@@ -75,9 +67,6 @@ class Game:
 
     def post_init(self, title):
         pygame.display.set_caption(title)
-        self.backBuffer = pygame.Surface((self.level.tiled_map.width * TILE_SIZE, self.level.tiled_map.height * TILE_SIZE), HWACCEL | HWSURFACE)
-        self.cameraBuffer = pygame.Surface((self.width, self.height), HWACCEL | HWSURFACE)
-        self.captureBuffer = pygame.Surface((self.design_width, self.design_height), HWACCEL | HWSURFACE)
-        self.scaleBuffer = pygame.Surface(self.dSize, HWACCEL | HWSURFACE)
-        self.fpsLimit = 60
+        self.fpsLimit = 120
         self.fpsClock = pygame.time.Clock()
+        self.font = pygame.font.SysFont(None, 40)
