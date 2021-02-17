@@ -45,8 +45,18 @@ class Game:
 
     def render(self):
         self.screen.fill((0,0,0))
+        self.cameraBuffer.fill((0,0,0))
         self.level.render(self.backBuffer)
-        self.screen.blit(self.backBuffer, (0 + self.level.camera.x, 0 + self.level.camera.y))
+        self.cameraBuffer.blit(self.backBuffer, (0, 0),
+            pygame.Rect(0 - self.level.camera.x, 0 - self.level.camera.y, self.level.camera.width, self.level.camera.height))
+        
+        xp = 0 + (self.width / 2) - self.design_width / 2
+        xy =  0 + (self.height / 2) - self.design_height / 2
+        r = pygame.Rect(xp, xy, self.design_width, self.design_height)
+        self.captureBuffer.blit(self.cameraBuffer, (0, 0), r)
+        self.scaleBuffer = pygame.transform.scale(self.captureBuffer, (self.design_width * self.cameraScale, self.design_height * self.cameraScale))
+        self.screen.blit(self.scaleBuffer, (0,0))
+        
         pygame.display.flip()
 
     def cleanUp(self):
@@ -64,3 +74,6 @@ class Game:
         pygame.display.set_caption(title)
         self.backBuffer = pygame.Surface((self.level.tiled_map.width * 32, 
             self.level.tiled_map.height * 32), pygame.HWSURFACE | pygame.DOUBLEBUF)
+        self.cameraBuffer = pygame.Surface((1024, 768), pygame.HWSURFACE | pygame.DOUBLEBUF)
+        self.captureBuffer = pygame.Surface((self.design_width, self.design_height), pygame.HWSURFACE | pygame.DOUBLEBUF)
+        self.scaleBuffer = pygame.Surface(self.dSize, pygame.HWSURFACE | pygame.DOUBLEBUF)

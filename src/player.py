@@ -9,13 +9,15 @@ class Player:
         self.dx = 0
         self.dy = 0
         self.speed = 100
+        self.height = 32
+        self.width = 32
         self.lastDir = "down"
         self.dir = "down"
         self.image = pygame.image.load("res/sprites/hero_1/walk_down.png")
         self.maxFrames = 4
         self.currentFrame = 0
         self.time = 0
-        self.rect = pygame.Rect(self.x, self.y, 32, 32)
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         self.animTime = 0.25
         self.weapon = Weapon()
         self.weapon.loadImage("res/sprites/sword_1.png")
@@ -31,7 +33,7 @@ class Player:
             self.image = pygame.image.load("res/sprites/hero_1/walk_right.png")
 
     def renderPlayer(self, surface):
-        surface.blit(self.image, (self.x, self.y), pygame.Rect(32 * self.currentFrame, 0, 32, 32))
+        surface.blit(self.image, (self.x, self.y), pygame.Rect(32 * self.currentFrame, 0, self.width, self.height))
 
     def renderWeapon(self, surface):
         self.weapon.render(surface)
@@ -82,7 +84,10 @@ class Player:
             self.dir = "right"
 
     def getMoveRect(self, delta):
-        return pygame.Rect(self.x + self.dx * self.speed * delta, self.y + self.dy * self.speed * delta, 32, 32)
+        rect = pygame.Rect(self.x + self.width / 2 - ((self.width / 2) / 2), self.y, self.width / 2, self.height)
+        rect.x =  rect.x + self.dx * self.speed * delta
+        rect.y = rect.y + self.dy * self.speed * delta
+        return rect
 
     def doMove(self, delta):
         nx = self.x + self.dx * self.speed * delta

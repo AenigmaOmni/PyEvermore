@@ -13,7 +13,7 @@ class Level:
         self.entities = []
         self.player = None
         self.on_init()
-        self.camera = Camera(0, 0, self.tiled_map.width * 32, self.tiled_map.height * 32)
+        self.camera = Camera(0, 0, 1024, 768)
 
     def on_init(self):
         self.player = Player()
