@@ -6,9 +6,9 @@ class LevelRender:
     def __init__(self, player):
         self.player = player
         self.startX = self.player.tx - 10
-        self.startY = self.player.ty - 10
+        self.startY = self.player.ty - 7
         self.endX = self.player.tx + 10
-        self.endY = self.player.ty + 10
+        self.endY = self.player.ty + 7
 
     def render(self, camera, map, surface, entities):
         self.startX = self.player.tx - 10

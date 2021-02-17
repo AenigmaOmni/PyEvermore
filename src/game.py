@@ -5,14 +5,13 @@ from src.inputMap import InputMap
 from src.globals import *
 
 class Game:
-    def __init__(self, window_width, window_height, design_width, design_height, title):
+    def __init__(self):
         self.running = True
-        self.on_init(window_width, window_height, design_width, design_height, title)
-        self.level = Level(window_width, window_height)
+        self.on_init()
+        self.level = Level()
         self.lastTime = 0
-        self.cameraScale = 3
         self.inputMap = InputMap()
-        self.post_init(title)
+        self.post_init()
 
     def run(self):
         while self.running:
@@ -48,25 +47,25 @@ class Game:
 
     def render(self):
         self.screen.fill((0,0,0))
-        self.level.render(self.screen)
-
+        self.level.render(self.backBuffer)
+        
         img = self.font.render("FPS: " + str(round(self.fpsClock.get_fps())), True, (255, 255, 255))
+        scaled = pygame.transform.scale(self.backBuffer, self.size)
+        self.screen.blit(scaled, (0,0))
         self.screen.blit(img, (20, 20))
         pygame.display.flip()
 
     def cleanUp(self):
         pygame.quit()
 
-    def on_init(self, width, height, dw, dh, title):
+    def on_init(self):
         pygame.init()
-        self.size = self.width, self.height = width, height
-        self.design_width = dw
-        self.design_height = dh
-        self.dSize = self.design_width, self.design_height
-        self.screen = pygame.display.set_mode(self.size)
+        self.size = (WINDOW_WIDTH, WINDOW_HEIGHT)
+        self.screen = pygame.display.set_mode(self.size, DOUBLEBUF | HWSURFACE)
+        self.backBuffer = pygame.Surface((GAME_WIDTH, GAME_HEIGHT), DOUBLEBUF | HWSURFACE)
 
-    def post_init(self, title):
-        pygame.display.set_caption(title)
-        self.fpsLimit = 120
+    def post_init(self):
+        pygame.display.set_caption(TITLE)
+        self.fpsLimit = 300
         self.fpsClock = pygame.time.Clock()
         self.font = pygame.font.SysFont(None, 40)

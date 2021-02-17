@@ -11,6 +11,8 @@ class Player:
         self.ty = 0
         self.dx = 0
         self.dy = 0
+        self.drawX = 0 + GAME_WIDTH / 2 - PLAYER_SIZE / 2
+        self.drawY = 0 + GAME_HEIGHT / 2 - PLAYER_SIZE / 2
         self.speed = 100
         self.height = PLAYER_SIZE
         self.width = PLAYER_SIZE
@@ -36,7 +38,8 @@ class Player:
             self.image = pygame.image.load("res/sprites/hero_1/walk_right.png")
 
     def renderPlayer(self, surface):
-        surface.blit(self.image, (0 + WINDOW_WIDTH / 2, 0 + WINDOW_HEIGHT / 2), pygame.Rect(32 * self.currentFrame, 0, self.width, self.height))
+        surface.blit(self.image, (self.drawX, self.drawY), 
+            pygame.Rect(PLAYER_SIZE * self.currentFrame, 0, self.width, self.height))
 
     def renderWeapon(self, surface):
         self.weapon.render(surface)

@@ -1,3 +1,4 @@
+from src.globals import WINDOW_HEIGHT, WINDOW_WIDTH
 import pygame
 from pygame.locals import *
 from src.levelRender import LevelRender
@@ -6,14 +7,12 @@ from pytmx.util_pygame import load_pygame
 from src.camera import Camera
 
 class Level:
-    def __init__(self, width, height):
+    def __init__(self):
         self.tiled_map = load_pygame('res/maps/test_map_1.tmx')
-        self.window_width = width
-        self.window_height = height
         self.staticColliders = []
         self.entities = []
         self.on_init()
-        self.camera = Camera(0, 0, width, height)
+        self.camera = Camera(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
 
     def on_init(self):
         self.player = Player()
