@@ -21,7 +21,7 @@ class LevelRender:
         self.renderForeground(map, surface, camera)
 
     def renderForeground(self, map, surface, camera):
-        upper = map.layers[4]
+        upper = map.layers[3]
 
         for x, y, image in upper.tiles():
             if x >= self.startX and x <= self.endX:
@@ -30,18 +30,11 @@ class LevelRender:
 
     def renderBackground(self, map, surface, camera):
         ground = map.layers[0]
-        ground2 = map.layers[1]
-        objects = map.layers[2]
-        objects2 = map.layers[3]
+        objects = map.layers[1]
+        objects2 = map.layers[2]
 
         #Draw ground
         for x, y, image in ground.tiles():
-            if x >= self.startX and x <= self.endX:
-                if y >= self.startY and y <= self.endY:
-                    surface.blit(image, (x * map.tilewidth + camera.x, y * map.tileheight + camera.y))
-
-        #Draw ground2
-        for x, y, image in ground2.tiles():
             if x >= self.startX and x <= self.endX:
                 if y >= self.startY and y <= self.endY:
                     surface.blit(image, (x * map.tilewidth + camera.x, y * map.tileheight + camera.y))
