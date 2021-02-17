@@ -9,7 +9,9 @@ class Game:
         self.on_init(window_width, window_height, design_width, design_height, title)
         self.level = Level()
         self.lastTime = 0
+        self.cameraScale = 3
         self.inputMap = InputMap()
+        self.post_init(title)
 
     def run(self):
         while self.running:
@@ -43,7 +45,8 @@ class Game:
 
     def render(self):
         self.screen.fill((0,0,0))
-        self.level.render(self.screen)
+        self.level.render(self.backBuffer)
+        self.screen.blit(self.backBuffer, (0 + self.level.camera.x, 0 + self.level.camera.y))
         pygame.display.flip()
 
     def cleanUp(self):
@@ -56,4 +59,8 @@ class Game:
         self.design_height = dh
         self.dSize = self.design_width, self.design_height
         self.screen = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
+
+    def post_init(self, title):
         pygame.display.set_caption(title)
+        self.backBuffer = pygame.Surface((self.level.tiled_map.width * 32, 
+            self.level.tiled_map.height * 32), pygame.HWSURFACE | pygame.DOUBLEBUF)
