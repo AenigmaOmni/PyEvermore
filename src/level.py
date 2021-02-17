@@ -3,6 +3,7 @@ from pygame.locals import *
 from src.levelRender import LevelRender
 from src.player import Player
 from pytmx.util_pygame import load_pygame
+from src.camera import Camera
 
 class Level:
     def __init__(self):
@@ -10,10 +11,13 @@ class Level:
         self.levelRenderer = LevelRender()
         self.staticColliders = []
         self.entities = []
+        self.player = None
         self.on_init()
+        self.camera = Camera(0, 0, self.tiled_map.width * 32, self.tiled_map.height * 32)
 
     def on_init(self):
-        self.entities.append(Player())
+        self.player = Player()
+        self.entities.append(self.player)
         self.loadStaticColliders()
 
     def loadStaticColliders(self):
@@ -36,6 +40,8 @@ class Level:
     def postUpdate(self, delta, inputMap):
         for entity in self.entities:
             entity.postUpdate(delta, inputMap)
+
+        self.camera.update(self.player)
         
 
     def update(self, delta, inputMap):
