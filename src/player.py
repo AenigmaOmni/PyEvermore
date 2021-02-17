@@ -1,4 +1,5 @@
 import pygame
+from src.globals import *
 from pygame.locals import *
 from src.weapon import Weapon
 
@@ -6,11 +7,13 @@ class Player:
     def __init__(self):
         self.x = 64
         self.y = 64
+        self.tx = 0
+        self.ty = 0
         self.dx = 0
         self.dy = 0
         self.speed = 100
-        self.height = 32
-        self.width = 32
+        self.height = PLAYER_SIZE
+        self.width = PLAYER_SIZE
         self.lastDir = "down"
         self.dir = "down"
         self.image = pygame.image.load("res/sprites/hero_1/walk_down.png")
@@ -96,6 +99,8 @@ class Player:
         self.y = ny
         self.rect.x = self.x
         self.rect.y = self.y
+        self.tx = int(self.x / TILE_SIZE)
+        self.ty = int(self.y / TILE_SIZE)
 
     def animate(self, delta):
         self.time += delta

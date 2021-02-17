@@ -9,6 +9,6 @@ class Camera:
         self.camera = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def update(self, target):
-        self.x = -target.x + int(1024 / 2)
-        self.y = -target.y + int(768 / 2)
+        self.x = -target.x - (target.width / 2) + int(self.width / 2)
+        self.y = -target.y - (target.height / 2) + int(self.height / 2)
         self.camera = pygame.Rect(self.x, self.y, self.width, self.height)

@@ -6,19 +6,20 @@ from pytmx.util_pygame import load_pygame
 from src.camera import Camera
 
 class Level:
-    def __init__(self):
+    def __init__(self, width, height):
         self.tiled_map = load_pygame('res/maps/test_map_1.tmx')
-        self.levelRenderer = LevelRender()
+        self.window_width = width
+        self.window_height = height
         self.staticColliders = []
         self.entities = []
-        self.player = None
         self.on_init()
-        self.camera = Camera(0, 0, 1024, 768)
+        self.camera = Camera(0, 0, width, height)
 
     def on_init(self):
         self.player = Player()
         self.entities.append(self.player)
         self.loadStaticColliders()
+        self.levelRenderer = LevelRender(self.player)
 
     def loadStaticColliders(self):
         objects = self.tiled_map.get_layer_by_name("Blocked")
