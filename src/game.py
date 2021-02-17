@@ -26,7 +26,7 @@ class Game:
         # deltaTime in seconds.
         delta = (t - self.lastTime) / 1000.0
         self.lastTime = t
-        
+
         self.level.update(delta)
 
     def render(self):
@@ -41,3 +41,4 @@ class Game:
         pygame.init()
         self.size = self.width, self.height = width, height
         self.screen = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
+        pygame.display.set_caption(title)

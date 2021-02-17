@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from src.weapon import Weapon
 
 class Player:
     def __init__(self):
@@ -10,13 +11,16 @@ class Player:
         self.currentFrame = 0
         self.time = 0
         self.animTime = 0.25
+        self.weapon = Weapon()
+        self.weapon.loadImage("res/sprites/sword_1.png")
 
     def render(self, surface):
         surface.blit(self.image, (self.x, self.y), pygame.Rect(32 * self.currentFrame, 0, 32, 32))
-
+        self.weapon.render(surface)
 
     def update(self, delta):
         self.animate(delta)
+        self.weapon.update(delta, self)
 
     def animate(self, delta):
         self.time += delta
