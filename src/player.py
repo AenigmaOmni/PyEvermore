@@ -91,7 +91,9 @@ class Player:
 
     def getMoveRect(self, delta):
         x = self.x + ( (self.width / 2) - self.rect.width / 2)
+        x = x + self.dx * self.speed * delta
         y = self.y + self.height - self.rect.height / 2
+        y = y + self.dy * self.speed * delta
         rect = pygame.Rect(x, y, self.rect.width, self.rect.height)
         rect.x =  rect.x + self.dx * self.speed * delta
         rect.y = rect.y + self.dy * self.speed * delta

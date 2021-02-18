@@ -1,4 +1,4 @@
-from src.globals import WINDOW_HEIGHT, WINDOW_WIDTH
+from src.globals import TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH
 import pygame
 from pygame.locals import *
 from src.levelRender import LevelRender
@@ -21,10 +21,9 @@ class Level:
         self.levelRenderer = LevelRender(self.player)
 
     def loadStaticColliders(self):
-        objects = self.tiled_map.get_layer_by_name("Blocked")
-        for obj in objects:
-            rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
-            self.staticColliders.append(rect)
+        colliders = self.tiled_map.get_layer_by_name("Blocked")
+        for collider in colliders:
+            self.staticColliders.append(pygame.Rect(collider.x, collider.y, collider.width, collider.height))
 
     def checkEntityStaticCollision(self, delta):
         for static in self.staticColliders:
