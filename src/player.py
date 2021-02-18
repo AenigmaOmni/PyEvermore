@@ -6,7 +6,8 @@ from src.weapon import Weapon
 
 class Player(Actor):
     def __init__(self):
-        super().__init__()
+        path = "res/sprites/hero_1/"
+        super().__init__(path + "walk_down.png", path + "walk_up.png", path + "walk_left.png", path + "walk_right.png")
         self.drawX = 0 + GAME_WIDTH / 2 - PLAYER_SIZE / 2
         self.drawY = 0 + GAME_HEIGHT / 2 - PLAYER_SIZE / 2
         self.rect = pygame.Rect(0, 0, 12, 12)
@@ -32,20 +33,7 @@ class Player(Actor):
             self.renderPlayer(surface)
         elif self.dir == "right":
             self.renderPlayer(surface)
-            self.renderWeapon(surface)
-
-    def preUpdate(self, delta, inputMap):
-        self.getInput(delta, inputMap)
-
-    def postUpdate(self, delta, inputMap):
-        self.doMove(delta)
-        self.dx = 0
-        self.dy = 0
-        self.weapon.update(delta, self)
-        if self.lastDir != self.dir:
-            self.lastDir = self.dir
-            self.switchAnim()
-        
+            self.renderWeapon(surface)    
 
     def getInput(self, delta, inputMap):
         if inputMap.w == True:
@@ -60,3 +48,13 @@ class Player(Actor):
         if inputMap.d == True:
             self.dx = 1
             self.dir = "right"
+
+    def preUpdate(self, delta, inputMap):
+        super().preUpdate(delta)
+        self.getInput(delta, inputMap)
+    
+    def postUpdate(self, delta):
+        super().postUpdate(delta)
+
+    def update(self, delta):
+        super().update(delta)

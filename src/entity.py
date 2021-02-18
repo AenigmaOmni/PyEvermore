@@ -36,3 +36,18 @@ class Entity:
         self.rect.y = self.y
         self.tx = int(self.x / TILE_SIZE)
         self.ty = int(self.y / TILE_SIZE)
+
+    def preUpdate(self, delta):
+        pass
+
+    def update(self, delta):
+        pass
+
+    def postUpdate(self, delta, inputMap):
+        self.doMove(delta)
+        self.dx = 0
+        self.dy = 0
+        self.weapon.update(delta, self)
+        if self.lastDir != self.dir:
+            self.lastDir = self.dir
+            self.switchAnim()

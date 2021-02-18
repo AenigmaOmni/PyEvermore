@@ -4,22 +4,26 @@ from src.globals import *
 from src.entity import Entity
 
 class Actor(Entity):
-    def __init__(self):
+    def __init__(self, downPath, upPath, leftPath, rightPath):
         super().__init__()
         self.animTime = 0.25
         self.maxFrames = 4
         self.currentFrame = 0
         self.time = 0
+        self.downAnim = pygame.image.load(downPath)
+        self.upAnim = pygame.image.load(upPath)
+        self.leftAnim = pygame.image.load(leftPath)
+        self.rightAnim = pygame.image.load(rightPath)
 
     def switchAnim(self):
         if self.dir == "down":
-            self.image = pygame.image.load("res/sprites/hero_1/walk_down.png")
+            self.image = self.downAnim
         elif self.dir == "up":
-            self.image = pygame.image.load("res/sprites/hero_1/walk_up.png")
+            self.image = self.upAnim
         elif self.dir == "left":
-            self.image = pygame.image.load("res/sprites/hero_1/walk_left.png")
+            self.image = self.leftAnim
         elif self.dir == "right":
-            self.image = pygame.image.load("res/sprites/hero_1/walk_right.png")
+            self.image = self.rightAnim
 
     def animate(self, delta):
         self.time += delta
@@ -29,5 +33,9 @@ class Actor(Entity):
             if self.currentFrame >= self.maxFrames:
                 self.currentFrame = 0
 
-    def update(self, delta, inputMap):
+    def preUpdate(self, delta):
+        super().preUpdate(delta)
+
+    def update(self, delta):
+        super().update(delta)
         self.animate(delta)
