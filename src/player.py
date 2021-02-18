@@ -21,7 +21,7 @@ class Player(Actor):
     def renderWeapon(self, surface):
         self.weapon.render(surface)
 
-    def render(self, surface, camera):
+    def render(self, surface):
         if self.dir == "up":
             self.renderWeapon(surface)
             self.renderPlayer(surface)

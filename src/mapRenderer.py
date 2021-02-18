@@ -1,8 +1,9 @@
 from pytmx.util_pygame import load_pygame
 from src.globals import *
 import pygame
+from src.player import Player
 
-class LevelRender:
+class MapRenderer:
     def __init__(self, player):
         self.player = player
         self.startX = 0
@@ -42,11 +43,12 @@ class LevelRender:
                     if(object2Tile != None):
                         surface.blit(object2Tile, (x * map.tilewidth + camera.x, y * map.tileheight + camera.y))
 
-
-
     def renderEntities(self, surface, entities, camera):
         for entity in entities:
             if entity.tx >= self.startX and entity.tx <= self.endX:
                 if entity.ty >= self.startY and entity.ty <= self.endY:
-                    entity.render(surface, camera)
+                    if isinstance(entity, Player):
+                        entity.render(surface)
+                    else:
+                        entity.render(surface, camera)
             

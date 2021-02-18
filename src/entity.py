@@ -43,7 +43,7 @@ class Entity:
     def update(self, delta):
         pass
 
-    def postUpdate(self, delta, inputMap):
+    def postUpdate(self, delta):
         self.doMove(delta)
         self.dx = 0
         self.dy = 0
