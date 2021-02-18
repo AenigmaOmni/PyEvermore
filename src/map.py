@@ -4,6 +4,7 @@ import pygame
 from pygame.locals import *
 from src.globals import *
 from src.player import Player
+from src.enemy import Enemy
 
 class Map:
     def __init__(self, path, cam):
@@ -17,6 +18,7 @@ class Map:
         self.entities.append(self.player)
         self.loadStaticColliders()
         self.getPlayerStart()
+        self.loadEntities()
         self.mapRenderer = MapRenderer(self.player)
 
     def preUpdate(self, delta, inputMap):
@@ -25,6 +27,13 @@ class Map:
                 entity.preUpdate(delta, inputMap)
             else:
                 entity.preUpdate(delta)
+
+    def loadEntities(self):
+        ents = self.tiled_map.get_layer_by_name("Enemies")
+        for e in ents:
+            enemy = Enemy("res/sprites/green_slime.png")
+            enemy.setPixelPosition(e.x, e.y)
+            self.entities.append(enemy)
 
     def update(self, delta):
         for entity in self.entities:

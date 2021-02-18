@@ -17,6 +17,14 @@ class Entity:
         self.dir = "down"
         self.image = pygame.image.load("res/sprites/hero_1/walk_down.png")
 
+    def setPixelPosition(self, x, y):
+        self.x = x
+        self.y = y
+        self.tx = int(x / TILE_SIZE)
+        self.ty = int(y / TILE_SIZE)
+        self.rect.x = self.x
+        self.rect.y = self.y
+        
     def getMoveRect(self, delta):
         x = self.x + ( (self.width / 2) - self.rect.width / 2)
         x = x + self.dx * self.speed * delta
@@ -47,7 +55,3 @@ class Entity:
         self.doMove(delta)
         self.dx = 0
         self.dy = 0
-        self.weapon.update(delta, self)
-        if self.lastDir != self.dir:
-            self.lastDir = self.dir
-            self.switchAnim()

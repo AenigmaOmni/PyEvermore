@@ -4,12 +4,14 @@ from src.globals import *
 from src.entity import Entity
 
 class Actor(Entity):
-    def __init__(self, downPath, upPath, leftPath, rightPath):
+    def __init__(self):
         super().__init__()
         self.animTime = 0.25
         self.maxFrames = 4
         self.currentFrame = 0
         self.time = 0
+
+    def load(self, downPath, upPath, leftPath, rightPath):
         self.downAnim = pygame.image.load(downPath)
         self.upAnim = pygame.image.load(upPath)
         self.leftAnim = pygame.image.load(leftPath)
@@ -39,3 +41,8 @@ class Actor(Entity):
     def update(self, delta):
         super().update(delta)
         self.animate(delta)
+
+    def render(self, surface, camera):
+        x = self.x + camera.x
+        y = self.y + camera.y
+        surface.blit(self.image, (x, y), pygame.Rect(ENEMY_SIZE * self.currentFrame, 0, self.width, self.height))

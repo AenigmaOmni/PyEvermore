@@ -7,12 +7,13 @@ from src.weapon import Weapon
 class Player(Actor):
     def __init__(self):
         path = "res/sprites/hero_1/"
-        super().__init__(path + "walk_down.png", path + "walk_up.png", path + "walk_left.png", path + "walk_right.png")
+        super().__init__()
         self.drawX = 0 + GAME_WIDTH / 2 - PLAYER_SIZE / 2
         self.drawY = 0 + GAME_HEIGHT / 2 - PLAYER_SIZE / 2
         self.rect = pygame.Rect(0, 0, 12, 12)
         self.weapon = Weapon()
         self.weapon.loadImage("res/sprites/sword_1.png")
+        self.load(path + "walk_down.png", path + "walk_up.png", path + "walk_left.png", path + "walk_right.png")
 
     def renderPlayer(self, surface):
         surface.blit(self.image, (self.drawX, self.drawY), 
@@ -55,6 +56,10 @@ class Player(Actor):
     
     def postUpdate(self, delta):
         super().postUpdate(delta)
+        self.weapon.update(delta, self)
+        if self.lastDir != self.dir:
+            self.lastDir = self.dir
+            self.switchAnim()
 
     def update(self, delta):
         super().update(delta)
