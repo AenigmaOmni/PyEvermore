@@ -21,35 +21,28 @@ class LevelRender:
         self.renderForeground(map, surface, camera)
 
     def renderForeground(self, map, surface, camera):
-        upper = map.layers[3]
-
-        for x, y, image in upper.tiles():
-            if x >= self.startX and x <= self.endX:
-                if y >= self.startY and y <= self.endY:
-                    surface.blit(image, (x * map.tilewidth + camera.x, y * map.tileheight + camera.y))
+        for y in range(self.startY, self.endY):
+            for x in range(self.startX, self.endX):
+                if not x < 0 and not y < 0:
+                    tile = map.get_tile_image(x, y, 3)
+                    if(tile != None):
+                        surface.blit(tile, (x * map.tilewidth + camera.x, y * map.tileheight + camera.y))
 
     def renderBackground(self, map, surface, camera):
-        ground = map.layers[0]
-        objects = map.layers[1]
-        objects2 = map.layers[2]
+        for y in range(self.startY, self.endY):
+            for x in range(self.startX, self.endX):
+                if not x < 0 and not y < 0:
+                    groundTile = map.get_tile_image(x, y, 0)
+                    if(groundTile != None):
+                        surface.blit(groundTile, (x * map.tilewidth + camera.x, y * map.tileheight + camera.y))
+                    objectTile = map.get_tile_image(x, y, 1)
+                    if(objectTile != None):
+                        surface.blit(objectTile, (x * map.tilewidth + camera.x, y * map.tileheight + camera.y))
+                    object2Tile = map.get_tile_image(x, y, 2)
+                    if(object2Tile != None):
+                        surface.blit(object2Tile, (x * map.tilewidth + camera.x, y * map.tileheight + camera.y))
 
-        #Draw ground
-        for x, y, image in ground.tiles():
-            if x >= self.startX and x <= self.endX:
-                if y >= self.startY and y <= self.endY:
-                    surface.blit(image, (x * map.tilewidth + camera.x, y * map.tileheight + camera.y))
 
-        #Draw objects1
-        for x, y, image in objects.tiles():
-            if x >= self.startX and x <= self.endX:
-                if y >= self.startY and y <= self.endY:
-                    surface.blit(image, (x * map.tilewidth + camera.x, y * map.tileheight + camera.y))
-
-        #Draw objects2
-        for x, y, image in objects2.tiles():
-            if x >= self.startX and x <= self.endX:
-                if y >= self.startY and y <= self.endY:
-                    surface.blit(image, (x * map.tilewidth + camera.x, y * map.tileheight + camera.y))
 
     def renderEntities(self, surface, entities, camera):
         for entity in entities:
