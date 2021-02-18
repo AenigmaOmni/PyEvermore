@@ -18,6 +18,7 @@ class Level:
         self.player = Player()
         self.entities.append(self.player)
         self.loadStaticColliders()
+        self.getPlayerStart()
         self.levelRenderer = LevelRender(self.player)
 
     def loadStaticColliders(self):
@@ -31,6 +32,13 @@ class Level:
                 if static.colliderect(en.getMoveRect(delta)):
                     en.dx = 0
                     en.dy = 0
+
+    def getPlayerStart(self):
+        obj = self.tiled_map.get_object_by_name("Start")
+        tx = int(obj.x / TILE_SIZE)
+        ty = int(obj.y / TILE_SIZE)
+        self.player.x = tx * TILE_SIZE
+        self.player.y = ty * TILE_SIZE
 
     def preUpdate(self, delta, inputMap):
         for entity in self.entities:
