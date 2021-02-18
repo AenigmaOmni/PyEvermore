@@ -14,6 +14,12 @@ class Player(Actor):
         self.weapon = Weapon()
         self.weapon.loadImage("res/sprites/sword_1.png")
         self.load(path + "walk_down.png", path + "walk_up.png", path + "walk_left.png", path + "walk_right.png")
+        self.attacking = False
+        self.attackCooldown = False
+        self.attackCooldownTime = 0.2
+        self.attackCooldownTimer = 0
+        self.attackTime = 0.15
+        self.attackTimer = 0
 
     def renderPlayer(self, surface):
         surface.blit(self.image, (self.drawX, self.drawY), 
@@ -49,6 +55,10 @@ class Player(Actor):
         if inputMap.d == True:
             self.dx = 1
             self.dir = "right"
+        if inputMap.space == True:
+            if not self.attackCooldown:
+                if not self.attacking:
+                    self.attacking = True
 
     def preUpdate(self, delta, inputMap):
         super().preUpdate(delta)
@@ -63,3 +73,13 @@ class Player(Actor):
 
     def update(self, delta):
         super().update(delta)
+        if self.attacking:
+            self.attackTimer += delta
+            if self.attackTimer >= self.attackTime:
+                self.attacking = False
+                self.attackCooldown = True
+        if self.attackCooldown:
+            self.attackCooldownTimer += delta
+            if self.attackCooldownTimer >= self.attackCooldownTime:
+                self.attackCooldown = False
+                self.attackCooldownTimer = 0

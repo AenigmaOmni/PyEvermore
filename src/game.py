@@ -36,6 +36,8 @@ class Game:
             self.inputMap.s = True
         if keys[K_w]:
             self.inputMap.w = True
+        if keys[K_SPACE]:
+            self.inputMap.space = True
 
     def update(self):
         t = pygame.time.get_ticks()
