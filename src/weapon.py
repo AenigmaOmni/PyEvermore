@@ -5,14 +5,22 @@ from src.globals import *
 class Weapon:
     def __init__(self):
         self.image = None
-        self.weaponSprite = self.image
+        self.weaponSprite = None
         self.attacking = False
         self.x = 0
         self.y = 0
         self.angle = 180
+        self.image = None
+        self.hitSprite = None
+        self.hitImageX = self.x
+        self.hitImageY = self.y
+        self.hitAngle = 180
+        self.flipX = False
+        self.flipY = False
 
     def loadImage(self, path):
         self.image = pygame.image.load(path)
+        self.hitImage = pygame.image.load("res/sprites/slash.png")
 
     def update(self, dt, player):
         if player.dir == "down":
@@ -27,8 +35,13 @@ class Weapon:
                 self.y = player.drawY - 9
             if self.attacking:
                 self.x = player.drawX - 8
-                self.y = player.drawY + 21
+                self.y = player.drawY + 21                
                 self.angle = 0
+                self.flipX = False
+                self.flipY = False
+                self.hitImageX = self.x + 10
+                self.hitImageY = self.y + 10
+                self.hitAngle = 0
             else:
                 self.angle = 180
         elif player.dir == "left":
@@ -45,6 +58,11 @@ class Weapon:
                 self.x = player.drawX - 26
                 self.y = player.drawY + 9
                 self.angle = 270
+                self.hitImageX = self.x
+                self.flipX = False
+                self.flipY = False
+                self.hitImageY = self.y - 10
+                self.hitAngle = 180
             else:
                 self.angle = 180
         elif player.dir == "right":
@@ -61,6 +79,11 @@ class Weapon:
                 self.x = player.drawX + 15
                 self.y = player.drawY + 11
                 self.angle = 90
+                self.hitImageX = self.x + 10
+                self.flipX = False
+                self.flipY = True
+                self.hitImageY = self.y - 12
+                self.hitAngle = 180
             else:
                 self.angle = 180
         elif player.dir == "up":
@@ -76,9 +99,19 @@ class Weapon:
             if self.attacking:
                 self.x = player.drawX + 11
                 self.y = player.drawY - 18
+                self.hitImageX = self.x - 12
+                self.flipX = True
+                self.flipY = True
+                self.hitImageY = self.y
+                self.hitAngle = 180
             else:
                 self.angle = 180
 
     def render(self, surface):
         self.weaponSprite = pygame.transform.rotate(self.image, self.angle)
+        self.hitSprite = pygame.transform.rotate(self.hitImage, self.hitAngle)
+        if self.flipX or self.flipY:
+            self.hitSprite = pygame.transform.flip(self.hitImage, self.flipX, self.flipY)
         surface.blit(self.weaponSprite, (self.x, self.y))
+        if(self.attacking):
+            surface.blit(self.hitSprite, (self.hitImageX, self.hitImageY))
