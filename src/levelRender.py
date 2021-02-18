@@ -5,17 +5,17 @@ import pygame
 class LevelRender:
     def __init__(self, player):
         self.player = player
-        self.startX = self.player.tx - 10
-        self.startY = self.player.ty - 7
-        self.endX = self.player.tx + 10
-        self.endY = self.player.ty + 7
+        self.startX = 0
+        self.startY = 0
+        self.endX = 0
+        self.endY = 0
 
     def render(self, camera, map, surface, entities):
-        self.startX = self.player.tx - 10
-        self.startY = self.player.ty - 10
-        self.endX = self.player.tx + 10
-        self.endY = self.player.ty + 10
-        
+        self.startX = self.player.tx - VIEW_RADIUS
+        self.startY = self.player.ty - VIEW_RADIUS
+        self.endX = self.player.tx + VIEW_RADIUS
+        self.endY = self.player.ty + VIEW_RADIUS
+
         self.renderBackground(map, surface, camera)
         self.renderEntities(surface, entities, camera)
         self.renderForeground(map, surface, camera)
