@@ -6,6 +6,7 @@ class Weapon:
     def __init__(self):
         self.image = None
         self.weaponSprite = self.image
+        self.attacking = False
         self.x = 0
         self.y = 0
         self.angle = 180
@@ -24,6 +25,12 @@ class Weapon:
             elif player.currentFrame == 3:
                 self.x = player.drawX - 6
                 self.y = player.drawY - 9
+            if self.attacking:
+                self.x = player.drawX - 8
+                self.y = player.drawY + 21
+                self.angle = 0
+            else:
+                self.angle = 180
         elif player.dir == "left":
             if player.currentFrame == 0:
                 self.x = player.drawX - 6
@@ -34,6 +41,12 @@ class Weapon:
             elif player.currentFrame == 2:
                 self.x = player.drawX + 1
                 self.y = player.drawY - 9
+            if self.attacking:
+                self.x = player.drawX - 26
+                self.y = player.drawY + 9
+                self.angle = 270
+            else:
+                self.angle = 180
         elif player.dir == "right":
             if player.currentFrame == 0 or player.currentFrame == 2:
                 self.x = player.drawX + 2
@@ -44,6 +57,12 @@ class Weapon:
             elif player.currentFrame == 3:
                 self.x = player.drawX - 6
                 self.y = player.drawY - 10
+            if self.attacking:
+                self.x = player.drawX + 15
+                self.y = player.drawY + 11
+                self.angle = 90
+            else:
+                self.angle = 180
         elif player.dir == "up":
             if player.currentFrame == 1 or player.currentFrame == 3:
                 self.x = player.drawX + 11
@@ -54,6 +73,11 @@ class Weapon:
             elif player.currentFrame == 2:
                 self.x = player.drawX + 10
                 self.y = player.drawY - 10
+            if self.attacking:
+                self.x = player.drawX + 11
+                self.y = player.drawY - 18
+            else:
+                self.angle = 180
 
     def render(self, surface):
         self.weaponSprite = pygame.transform.rotate(self.image, self.angle)
