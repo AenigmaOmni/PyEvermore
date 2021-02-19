@@ -10,6 +10,7 @@ class Actor(Entity):
         self.maxFrames = 4
         self.currentFrame = 0
         self.time = 0
+        self.walking = False
 
     def load(self, downPath, upPath, leftPath, rightPath):
         self.downAnim = pygame.image.load(downPath)
@@ -28,13 +29,23 @@ class Actor(Entity):
             self.image = self.rightAnim
 
     def animate(self, delta):
-        self.time += delta
-        if self.time >= self.animTime:
-            self.time = 0
-            self.currentFrame += 1
-            if self.currentFrame >= self.maxFrames:
+        if self.walking:
+            self.time += delta
+            if self.time >= self.animTime:
+                self.time = 0
+                self.currentFrame += 1
+                if self.currentFrame >= self.maxFrames:
+                    self.currentFrame = 0
+        else:
+            if self.dir == "down":
                 self.currentFrame = 0
-
+            elif self.dir == "up":
+                self.currentFrame = 1
+            elif self.dir == "left":
+                self.currentFrame = 1
+            elif self.dir == "right":
+                self.currentFrame = 0
+                
     def preUpdate(self, delta):
         super().preUpdate(delta)
 

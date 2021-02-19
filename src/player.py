@@ -43,6 +43,8 @@ class Player(Actor):
             self.renderWeapon(surface)    
 
     def getInput(self, delta, inputMap):
+        self.walking = False
+
         if inputMap.w == True:
             self.dy = -1
             self.dir = "up"
@@ -68,9 +70,11 @@ class Player(Actor):
     def postUpdate(self, delta):
         super().postUpdate(delta)
         self.weapon.update(delta, self)
+        
         if self.lastDir != self.dir:
             self.lastDir = self.dir
             self.switchAnim()
+
         if self.attacking:
             if self.dir == "left":
                 self.currentFrame = 0
@@ -82,7 +86,11 @@ class Player(Actor):
                 self.currentFrame = 1
 
     def update(self, delta):
+        if not self.dx == 0 or not self.dy == 0:
+            self.walking = True
+        
         super().update(delta)
+        
         if self.attacking:
             self.attackTimer += delta
             if self.attackTimer >= self.attackTime:
@@ -90,6 +98,7 @@ class Player(Actor):
                 self.attacking = False
                 self.weapon.attacking = False
                 self.attackCooldown = True
+        
         if self.attackCooldown:
             self.attackCooldownTimer += delta
             if self.attackCooldownTimer >= self.attackCooldownTime:
