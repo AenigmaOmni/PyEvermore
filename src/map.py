@@ -38,6 +38,7 @@ class Map:
     def update(self, delta):
         for entity in self.entities:
             entity.update(delta)
+        self.checkPlayerWeaponCollision(delta)
         self.checkEntityStaticCollision(delta)
 
     def postUpdate(self, delta):
@@ -55,6 +56,14 @@ class Map:
                 if static.colliderect(en.getMoveRect(delta)):
                     en.dx = 0
                     en.dy = 0
+    
+    def checkPlayerWeaponCollision(self, delta):
+        if self.player.weapon.attacking:
+            collider = self.player.weapon.rect
+            for ent in self.entities:
+                if ent.collisionMask == ENEMY_MASK:
+                    if collider.colliderect(ent.rect):
+                        print("Hit!")
 
     def getPlayerStart(self):
         obj = self.tiled_map.get_object_by_name("Start")

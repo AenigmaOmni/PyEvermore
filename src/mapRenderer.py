@@ -50,5 +50,9 @@ class MapRenderer:
                     if isinstance(entity, Player):
                         entity.render(surface)
                     else:
+                        #rect = pygame.Rect(entity.rect.x + camera.x, entity.rect.y + camera.y, entity.rect.width, entity.rect.height)
+                        #pygame.draw.rect(surface, (255,255,255), rect)
                         entity.render(surface, camera)
-            
+        #rect = pygame.Rect(self.player.weapon.rect.x + camera.x, self.player.weapon.rect.y + camera.y, self.player.weapon.rect.width,
+        #    self.player.weapon.rect.height)
+        #pygame.draw.rect(surface, (255,255,255), rect)

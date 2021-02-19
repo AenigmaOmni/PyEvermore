@@ -13,7 +13,7 @@ class Entity:
         self.height = PLAYER_SIZE
         self.width = PLAYER_SIZE
         self.lastDir = "down"
-        self.rect = pygame.Rect(0, 0, 12, 12)
+        self.rect = pygame.Rect(0, 0, 32, 32)
         self.dir = "down"
         self.image = pygame.image.load("res/sprites/hero_1/walk_down.png")
 
@@ -22,8 +22,6 @@ class Entity:
         self.y = y
         self.tx = int(x / TILE_SIZE)
         self.ty = int(y / TILE_SIZE)
-        self.rect.x = self.x
-        self.rect.y = self.y
         
     def getMoveRect(self, delta):
         x = self.x + ( (self.width / 2) - self.rect.width / 2)
@@ -40,8 +38,6 @@ class Entity:
         ny = self.y + self.dy * self.speed * delta
         self.x = nx
         self.y = ny
-        self.rect.x = self.x
-        self.rect.y = self.y
         self.tx = int(self.x / TILE_SIZE)
         self.ty = int(self.y / TILE_SIZE)
 
@@ -55,3 +51,5 @@ class Entity:
         self.doMove(delta)
         self.dx = 0
         self.dy = 0
+        self.rect.x = self.x
+        self.rect.y = self.y

@@ -17,12 +17,38 @@ class Weapon:
         self.hitAngle = 180
         self.flipX = False
         self.flipY = False
+        self.rect = pygame.Rect(0, 0, 32, 32)
+        self.collisionMask = WEAPON_MASK
 
     def loadImage(self, path):
         self.image = pygame.image.load(path)
         self.hitImage = pygame.image.load("res/sprites/slash.png")
 
     def update(self, dt, player):
+        self.updatePositionals(dt, player)
+        if player.dir == "down":
+            self.rect.x = player.x
+            self.rect.y = player.y + 25
+        elif player.dir == "up":
+            self.rect.x = player.x
+            self.rect.y = player.y - 25
+        elif player.dir == "left":
+            self.rect.y = player.y
+            self.rect.x = player.x - 25
+        elif player.dir == "right":
+            self.rect.y = player.y
+            self.rect.x = player.x + 25
+
+    def render(self, surface):
+        self.weaponSprite = pygame.transform.rotate(self.image, self.angle)
+        self.hitSprite = pygame.transform.rotate(self.hitImage, self.hitAngle)
+        if self.flipX or self.flipY:
+            self.hitSprite = pygame.transform.flip(self.hitImage, self.flipX, self.flipY)
+        surface.blit(self.weaponSprite, (self.x, self.y))
+        if(self.attacking):
+            surface.blit(self.hitSprite, (self.hitImageX, self.hitImageY))
+
+    def updatePositionals(self, dt, player):
         if player.dir == "down":
             if player.currentFrame == 0 or player.currentFrame == 2:
                 self.x = player.drawX - 8
@@ -106,12 +132,3 @@ class Weapon:
                 self.hitAngle = 180
             else:
                 self.angle = 180
-
-    def render(self, surface):
-        self.weaponSprite = pygame.transform.rotate(self.image, self.angle)
-        self.hitSprite = pygame.transform.rotate(self.hitImage, self.hitAngle)
-        if self.flipX or self.flipY:
-            self.hitSprite = pygame.transform.flip(self.hitImage, self.flipX, self.flipY)
-        surface.blit(self.weaponSprite, (self.x, self.y))
-        if(self.attacking):
-            surface.blit(self.hitSprite, (self.hitImageX, self.hitImageY))

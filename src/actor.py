@@ -49,6 +49,9 @@ class Actor(Entity):
     def preUpdate(self, delta):
         super().preUpdate(delta)
 
+    def postUpdate(self, delta):
+        super().postUpdate(delta)
+
     def update(self, delta):
         super().update(delta)
         self.animate(delta)
