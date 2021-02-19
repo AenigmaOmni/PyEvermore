@@ -5,6 +5,7 @@ from pygame.locals import *
 from src.globals import *
 from src.player import Player
 from src.enemy import Enemy
+from src.WanderAI import WanderAI
 
 class Map:
     def __init__(self, path, cam):
@@ -31,9 +32,11 @@ class Map:
     def loadEntities(self):
         ents = self.tiled_map.get_layer_by_name("Enemies")
         for e in ents:
-            enemy = Enemy("res/sprites/green_slime.png")
-            enemy.setPixelPosition(e.x, e.y)
-            self.entities.append(enemy)
+            if e.name == "GreenSlime":
+                enemy = Enemy("res/sprites/green_slime.png")
+                enemy.setPixelPosition(e.x, e.y)
+                enemy.applyWalkAI(WanderAI(enemy, 1.5, 3, 25))
+                self.entities.append(enemy)
 
     def update(self, delta):
         for entity in self.entities:

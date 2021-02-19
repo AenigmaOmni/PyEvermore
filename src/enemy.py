@@ -15,16 +15,26 @@ class Enemy(Actor):
         self.regularSpeed = self.speed
         self.hitBumpTimer = 0
         self.hit = False
+        self.walkAI = None
+        self.autoTurnOffWalk = False
+
+    def applyWalkAI(self, ai):
+        self.walkAI = ai
 
     def load(self, path):
         self.image = pygame.image.load(path)
 
     def update(self, delta, inputMap=None):
         super().update(delta)
+        if not self.walkAI == None:
+            self.walkAI.update(delta)
+
         if self.hit:
             self.hitBumpTimer += delta
             if self.hitBumpTimer >= self.hitBumpTime:
                 self.hit = False
+                self.dx = 0
+                self.dy = 0
                 self.hitBumpTimer = 0
                 self.speed = self.regularSpeed
 
@@ -44,8 +54,12 @@ class Enemy(Actor):
 
     def preUpdate(self, delta):
         super().preUpdate(delta)
+        if not self.walkAI == None:
+            self.walkAI.preUpdate(delta)
 
     def postUpdate(self, delta):
+        if not self.walkAI == None:
+            self.walkAI.postUpdate(delta)
         super().postUpdate(delta)
 
     def takeHit(self, damage, direction):

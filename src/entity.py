@@ -16,6 +16,7 @@ class Entity:
         self.rect = pygame.Rect(0, 0, 32, 32)
         self.dir = "down"
         self.image = pygame.image.load("res/sprites/hero_1/walk_down.png")
+        self.autoTurnOffWalk = True
 
     def setPixelPosition(self, x, y):
         self.x = x
@@ -49,7 +50,8 @@ class Entity:
 
     def postUpdate(self, delta):
         self.doMove(delta)
-        self.dx = 0
-        self.dy = 0
+        if(self.autoTurnOffWalk):
+            self.dx = 0
+            self.dy = 0
         self.rect.x = self.x
         self.rect.y = self.y
