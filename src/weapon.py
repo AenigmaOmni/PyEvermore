@@ -19,6 +19,7 @@ class Weapon:
         self.flipY = False
         self.rect = pygame.Rect(0, 0, 32, 32)
         self.collisionMask = WEAPON_MASK
+        self.damage = 1
 
     def loadImage(self, path):
         self.image = pygame.image.load(path)

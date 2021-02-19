@@ -9,16 +9,47 @@ class Enemy(Actor):
         self.maxFrames = 2
         self.load(path)
         self.collisionMask = ENEMY_MASK
+        self.hitBumpDirection = "down"
+        self.hitBumpTime = 0.1
+        self.hitBumpSpeed = 350
+        self.regularSpeed = self.speed
+        self.hitBumpTimer = 0
+        self.hit = False
 
     def load(self, path):
         self.image = pygame.image.load(path)
 
     def update(self, delta, inputMap=None):
         super().update(delta)
+        if self.hit:
+            self.hitBumpTimer += delta
+            if self.hitBumpTimer >= self.hitBumpTime:
+                self.hit = False
+                self.hitBumpTimer = 0
+                self.speed = self.regularSpeed
+
+        if self.hit:
+            if self.hitBumpDirection == "left":
+                self.dx = -1
+                self.dy = 0
+            elif self.hitBumpDirection == "right":
+                self.dx = 1
+                self.dy = 0
+            elif self.hitBumpDirection == "down":
+                self.dx = 0
+                self.dy = 1
+            elif self.hitBumpDirection == "up":
+                self.dy = 0
+                self.dy = -1
 
     def preUpdate(self, delta):
         super().preUpdate(delta)
 
     def postUpdate(self, delta):
         super().postUpdate(delta)
+
+    def takeHit(self, damage, direction):
+        self.hit = True
+        self.hitBumpDirection = direction
+        self.speed = self.hitBumpSpeed
 

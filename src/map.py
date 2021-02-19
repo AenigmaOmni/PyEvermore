@@ -63,7 +63,7 @@ class Map:
             for ent in self.entities:
                 if ent.collisionMask == ENEMY_MASK:
                     if collider.colliderect(ent.rect):
-                        print("Hit!")
+                        ent.takeHit(self.player.weapon.damage, self.player.dir)
 
     def getPlayerStart(self):
         obj = self.tiled_map.get_object_by_name("Start")
