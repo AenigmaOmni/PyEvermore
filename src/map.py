@@ -36,7 +36,7 @@ class Map:
             if e.name == "GreenSlime":
                 enemy = Enemy("res/sprites/green_slime.png", e)
                 enemy.setPixelPosition(e.x, e.y)
-                enemy.applyWalkAI(WanderAI(enemy, 1.5, 1.5, 25))
+                enemy.applyWalkAI(WanderAI(enemy, 1.5, 3.5, 25))
                 self.entities.append(enemy)
 
     def loadEnemySpawnAreas(self):
@@ -54,6 +54,7 @@ class Map:
             entity.update(delta)
         self.checkPlayerWeaponCollision(delta)
         self.checkEntityStaticCollision(delta)
+        self.checkEntityWithEntityCollision(delta)
 
     def postUpdate(self, delta):
         for entity in self.entities:
@@ -64,12 +65,26 @@ class Map:
         for collider in colliders:
             self.staticColliders.append(pygame.Rect(collider.x, collider.y, collider.width, collider.height))
 
+    def checkEntityWithEntityCollision(self, delta):
+        for enCheck in self.entities:
+            if not enCheck.dx == 0 or not enCheck.dy == 0:
+                for e in self.entities:
+                    if not enCheck.id == e.id:
+                        if enCheck.getMoveRect(delta).colliderect(e.rect):
+                            if isinstance(enCheck, Player):
+                                enCheck.dy = 0
+                                enCheck.dx = 0
+                                enCheck.walking = False
+                            elif not enCheck.walkAI == None:
+                                enCheck.walkAI.stopWalking()
+
     def checkEntityStaticCollision(self, delta):
         for static in self.staticColliders:
             for en in self.entities:
                 if static.colliderect(en.getMoveRect(delta)):
                     en.dx = 0
                     en.dy = 0
+                    en.walking = False
     
     def checkPlayerWeaponCollision(self, delta):
         if self.player.weapon.attacking:

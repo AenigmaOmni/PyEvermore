@@ -19,6 +19,7 @@ class MapRenderer:
 
         self.renderBackground(map, surface, camera)
         self.renderEntities(surface, entities, camera)
+        self.renderPlayer(surface)
         self.renderForeground(map, surface, camera)
 
     def renderForeground(self, map, surface, camera):
@@ -47,12 +48,8 @@ class MapRenderer:
         for entity in entities:
             if entity.tx >= self.startX and entity.tx <= self.endX:
                 if entity.ty >= self.startY and entity.ty <= self.endY:
-                    if isinstance(entity, Player):
-                        entity.render(surface)
-                    else:
-                        #rect = pygame.Rect(entity.rect.x + camera.x, entity.rect.y + camera.y, entity.rect.width, entity.rect.height)
-                        #pygame.draw.rect(surface, (255,255,255), rect)
+                    if not isinstance(entity, Player):
                         entity.render(surface, camera)
-        #rect = pygame.Rect(self.player.weapon.rect.x + camera.x, self.player.weapon.rect.y + camera.y, self.player.weapon.rect.width,
-        #    self.player.weapon.rect.height)
-        #pygame.draw.rect(surface, (255,255,255), rect)
+
+    def renderPlayer(self, surface):
+        self.player.render(surface)

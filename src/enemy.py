@@ -25,8 +25,18 @@ class Enemy(Actor):
     def applyWalkAI(self, ai):
         self.walkAI = ai
 
+    #override
     def load(self, path):
         self.image = pygame.image.load(path)
+
+    #override
+    def getMoveRect(self, delta):
+        x = self.x + self.dx * self.speed * delta
+        y = self.y + self.dy * self.speed * delta
+        rect = pygame.Rect(x, y, self.rect.width, self.rect.height)
+        rect.x =  rect.x + self.dx * self.speed * delta
+        rect.y = rect.y + self.dy * self.speed * delta
+        return rect
 
     def update(self, delta, inputMap=None):
         super().update(delta)
@@ -60,11 +70,6 @@ class Enemy(Actor):
         super().preUpdate(delta)
         if not self.walkAI == None and not self.hit:
             self.walkAI.preUpdate(delta)
-        if self.invicible:
-            self.invTimer += delta
-            if self.invTimer >= self.invicibleTime:
-                self.invTimer = 0
-                self.invicible = False
 
     def postUpdate(self, delta):
         self.stayInSpawnArea(delta)
@@ -103,7 +108,7 @@ class Enemy(Actor):
                         self.walkAI.stopWalking()
 
     def takeHit(self, damage, direction):
-        if not self.invicible:
+        if not self.hit:
             self.hit = True
             self.hitBumpDirection = direction
             self.speed = self.hitBumpSpeed

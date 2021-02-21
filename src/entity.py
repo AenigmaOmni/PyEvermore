@@ -1,8 +1,10 @@
 from src.globals import *
 import pygame
+import random
 
 class Entity:
     def __init__(self, entobj):
+        self.id = random.randrange(10000) + random.randrange(10000) + random.randrange(10000000) + random.randrange(1000)
         self.x = 64
         self.y = 64
         self.tx = 0

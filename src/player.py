@@ -11,7 +11,7 @@ class Player(Actor):
         self.collisionMask = PLAYER_MASK
         self.drawX = 0 + GAME_WIDTH / 2 - PLAYER_SIZE / 2
         self.drawY = 0 + GAME_HEIGHT / 2 - PLAYER_SIZE / 2
-        self.rect = pygame.Rect(0, 0, 12, 12)
+        self.rect = pygame.Rect(0, 0, PLAYER_SIZE, PLAYER_SIZE)
         self.weapon = Weapon()
         self.weapon.loadImage("res/sprites/sword_1.png")
         self.load(path + "walk_down.png", path + "walk_up.png", path + "walk_left.png", path + "walk_right.png")
