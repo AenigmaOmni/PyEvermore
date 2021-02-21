@@ -17,6 +17,7 @@ class WanderAI:
         choice = [1, 2, 3, 4]
         rand = random.choice(choice)
         self.walking = True
+        self.entity.walking = True
         if rand == 1:
             self.entity.dx = -1
             self.entity.dy = 0
@@ -31,6 +32,7 @@ class WanderAI:
             self.entity.dx = 0
     
     def stopWalking(self):
+        self.entity.walking = False
         self.entity.dx = 0
         self.entity.dy = 0
         self.walking = False
