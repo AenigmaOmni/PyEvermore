@@ -11,12 +11,15 @@ class Enemy(Actor):
         self.collisionMask = ENEMY_MASK
         self.hitBumpDirection = "down"
         self.hitBumpTime = 0.1
-        self.hitBumpSpeed = 350
+        self.hitBumpSpeed = 625
         self.regularSpeed = self.speed
         self.hitBumpTimer = 0
         self.hit = False
         self.walkAI = None
         self.autoTurnOffWalk = False
+        self.invicibleTime = 0.3
+        self.invTimer = 0
+        self.invicible = False
 
     def applyWalkAI(self, ai):
         self.walkAI = ai
@@ -54,16 +57,27 @@ class Enemy(Actor):
 
     def preUpdate(self, delta):
         super().preUpdate(delta)
-        if not self.walkAI == None:
+        if not self.walkAI == None and not self.hit:
             self.walkAI.preUpdate(delta)
+        if self.invicible:
+            self.invTimer += delta
+            if self.invTimer >= self.invicibleTime:
+                self.invTimer = 0
+                self.invicible = False
 
     def postUpdate(self, delta):
-        if not self.walkAI == None:
+        if not self.walkAI == None and not self.hit:
             self.walkAI.postUpdate(delta)
         super().postUpdate(delta)
 
+    def takeDamage(self, damage):
+        pass
+
     def takeHit(self, damage, direction):
-        self.hit = True
-        self.hitBumpDirection = direction
-        self.speed = self.hitBumpSpeed
+        if not self.invicible:
+            self.hit = True
+            self.hitBumpDirection = direction
+            self.speed = self.hitBumpSpeed
+            self.invicible = True
+            self.takeDamage(damage)
 
