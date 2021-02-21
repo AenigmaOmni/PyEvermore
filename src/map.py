@@ -20,6 +20,7 @@ class Map:
         self.loadStaticColliders()
         self.getPlayerStart()
         self.loadEntities()
+        self.loadEnemySpawnAreas()
         self.mapRenderer = MapRenderer(self.player)
 
     def preUpdate(self, delta, inputMap):
@@ -33,10 +34,20 @@ class Map:
         ents = self.tiled_map.get_layer_by_name("Enemies")
         for e in ents:
             if e.name == "GreenSlime":
-                enemy = Enemy("res/sprites/green_slime.png")
+                enemy = Enemy("res/sprites/green_slime.png", e)
                 enemy.setPixelPosition(e.x, e.y)
-                enemy.applyWalkAI(WanderAI(enemy, 1.5, 3, 25))
+                enemy.applyWalkAI(WanderAI(enemy, 1.5, 1.5, 25))
                 self.entities.append(enemy)
+
+    def loadEnemySpawnAreas(self):
+        spawns = self.tiled_map.get_layer_by_name("SpawnAreas")
+        for s in spawns:
+            name = s.name
+            rect = pygame.Rect(s.x, s.y, s.width, s.height)
+            for e in self.entities:
+                if isinstance(e, Enemy):
+                    if e.entityObject.properties["SpawnArea"] == name:
+                        e.spawnRect = rect
 
     def update(self, delta):
         for entity in self.entities:

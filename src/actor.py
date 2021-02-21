@@ -4,8 +4,8 @@ from src.globals import *
 from src.entity import Entity
 
 class Actor(Entity):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, entobj):
+        super().__init__(entobj)
         self.animTime = 0.25
         self.maxFrames = 4
         self.currentFrame = 0

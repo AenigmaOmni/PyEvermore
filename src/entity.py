@@ -2,7 +2,7 @@ from src.globals import *
 import pygame
 
 class Entity:
-    def __init__(self):
+    def __init__(self, entobj):
         self.x = 64
         self.y = 64
         self.tx = 0
@@ -13,10 +13,11 @@ class Entity:
         self.height = PLAYER_SIZE
         self.width = PLAYER_SIZE
         self.lastDir = "down"
-        self.rect = pygame.Rect(0, 0, 32, 32)
+        self.rect = pygame.Rect(0, 0, PLAYER_SIZE, PLAYER_SIZE)
         self.dir = "down"
         self.image = pygame.image.load("res/sprites/hero_1/walk_down.png")
         self.autoTurnOffWalk = True
+        self.entityObject = entobj
 
     def setPixelPosition(self, x, y):
         self.x = x

@@ -4,8 +4,8 @@ from src.globals import *
 from src.actor import Actor
 
 class Enemy(Actor):
-    def __init__(self, path):
-        super().__init__()
+    def __init__(self, path, entobj):
+        super().__init__(entobj)
         self.maxFrames = 2
         self.load(path)
         self.collisionMask = ENEMY_MASK
@@ -20,6 +20,7 @@ class Enemy(Actor):
         self.invicibleTime = 0.3
         self.invTimer = 0
         self.invicible = False
+        self.spawnRect = None
 
     def applyWalkAI(self, ai):
         self.walkAI = ai
@@ -66,12 +67,40 @@ class Enemy(Actor):
                 self.invicible = False
 
     def postUpdate(self, delta):
+        self.stayInSpawnArea(delta)
         if not self.walkAI == None and not self.hit:
             self.walkAI.postUpdate(delta)
         super().postUpdate(delta)
 
     def takeDamage(self, damage):
         pass
+
+    def stayInSpawnArea(self, delta):
+        rect = self.getMoveRect(delta)
+        point = (rect.x, rect.y)
+        if not self.spawnRect.collidepoint(point):
+            can = False
+            self.walkAI.stopWalking()
+            if self.dx == -1 and self.dy == 0:
+                self.dx = 1
+            elif self.dx == 1 and self.dy == 0:
+                self.dx = -1
+            elif self.dy == -1 and self.dx == 0:
+                self.dy = 1
+            elif self.dy == 1 and self.dx == 0:
+                self.dy = -1
+            self.walkAI.walk()
+            rect = self.getMoveRect(delta)
+            point = (rect.x, rect.y)
+            if not self.spawnRect.collidepoint(point):
+                while not can:
+                    self.walkAI.walk()
+                    rect = self.getMoveRect(delta)
+                    point = (rect.x, rect.y)
+                    if self.spawnRect.collidepoint(point):
+                        can = True
+                    else:
+                        self.walkAI.stopWalking()
 
     def takeHit(self, damage, direction):
         if not self.invicible:

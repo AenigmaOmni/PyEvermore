@@ -70,6 +70,6 @@ class Game:
 
     def post_init(self):
         pygame.display.set_caption(TITLE)
-        self.fpsLimit = 200
+        self.fpsLimit = 60
         self.fpsClock = pygame.time.Clock()
         self.font = pygame.font.SysFont(None, 40)

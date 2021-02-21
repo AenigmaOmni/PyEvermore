@@ -7,7 +7,7 @@ from src.weapon import Weapon
 class Player(Actor):
     def __init__(self):
         path = "res/sprites/hero_1/"
-        super().__init__()
+        super().__init__(None)
         self.collisionMask = PLAYER_MASK
         self.drawX = 0 + GAME_WIDTH / 2 - PLAYER_SIZE / 2
         self.drawY = 0 + GAME_HEIGHT / 2 - PLAYER_SIZE / 2

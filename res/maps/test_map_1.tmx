@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="94">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" nextlayerid="13" nextobjectid="104">
  <tileset firstgid="1" source="tileset_1.tsx"/>
  <layer id="1" name="Ground" width="200" height="200">
   <data encoding="csv">
@@ -830,9 +830,58 @@
   <object id="84" name="Start" x="590.5" y="685.25"/>
  </objectgroup>
  <objectgroup id="10" name="Enemies">
-  <object id="88" name="GreenSlime" x="784.667" y="623.667"/>
-  <object id="91" name="GreenSlime" x="846.333" y="654.667"/>
-  <object id="92" name="GreenSlime" x="751.667" y="686"/>
-  <object id="93" name="GreenSlime" x="719" y="720"/>
+  <object id="88" name="GreenSlime" x="784.667" y="623.667">
+   <properties>
+    <property name="SpawnArea" value="GreenSlimeSpawn1"/>
+   </properties>
+  </object>
+  <object id="95" name="GreenSlime" x="847" y="652.5">
+   <properties>
+    <property name="SpawnArea" value="GreenSlimeSpawn1"/>
+   </properties>
+  </object>
+  <object id="96" name="GreenSlime" x="781.625" y="685.25">
+   <properties>
+    <property name="SpawnArea" value="GreenSlimeSpawn1"/>
+   </properties>
+  </object>
+  <object id="97" name="GreenSlime" x="753" y="656.75">
+   <properties>
+    <property name="SpawnArea" value="GreenSlimeSpawn1"/>
+   </properties>
+  </object>
+  <object id="98" name="GreenSlime" x="755.563" y="715.063">
+   <properties>
+    <property name="SpawnArea" value="GreenSlimeSpawn1"/>
+   </properties>
+  </object>
+  <object id="99" name="GreenSlime" x="846" y="686.333">
+   <properties>
+    <property name="SpawnArea" value="GreenSlimeSpawn1"/>
+   </properties>
+  </object>
+  <object id="100" name="GreenSlime" x="718.667" y="625">
+   <properties>
+    <property name="SpawnArea" value="GreenSlimeSpawn1"/>
+   </properties>
+  </object>
+  <object id="101" name="GreenSlime" x="718.576" y="657.212">
+   <properties>
+    <property name="SpawnArea" value="GreenSlimeSpawn1"/>
+   </properties>
+  </object>
+  <object id="102" name="GreenSlime" x="813.273" y="715.273">
+   <properties>
+    <property name="SpawnArea" value="GreenSlimeSpawn1"/>
+   </properties>
+  </object>
+  <object id="103" name="GreenSlime" x="724.545" y="684.727">
+   <properties>
+    <property name="SpawnArea" value="GreenSlimeSpawn1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="12" name="SpawnAreas">
+  <object id="94" name="GreenSlimeSpawn1" x="671.5" y="608.333" width="205.333" height="158"/>
  </objectgroup>
 </map>
